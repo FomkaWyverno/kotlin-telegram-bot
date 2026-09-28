@@ -224,7 +224,7 @@ internal class ApiClient(
         dropPendingUpdates: Boolean? = null,
     ): Call<Response<Boolean>> = service.deleteWebhook(dropPendingUpdates)
 
-    fun getWebhookInfo(): Call<Response<WebhookInfo>> = service.getWebhookInfo()
+    fun getWebhookInfo(): TelegramBotResult<WebhookInfo> = service.getWebhookInfo().runApiOperation()
 
     fun getMe(): TelegramBotResult<User> = service.getMe().runApiOperation()
 
@@ -291,7 +291,7 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<MessageId>> =
+    ): TelegramBotResult<MessageId> =
         service.copyMessage(
             chatId,
             fromChatId,
@@ -307,7 +307,7 @@ internal class ApiClient(
             messageEffectId,
             allowPaidBroadcast,
             showCaptionAboveMedia,
-        )
+        ).runApiOperation()
 
     fun sendPhoto(
         chatId: ChatId,
@@ -323,7 +323,7 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         when (photo) {
             is ByFile, is ByByteArray, is ByInputStream ->
                 service.sendPhoto(
@@ -345,7 +345,7 @@ internal class ApiClient(
                     if (messageEffectId != null) convertString(messageEffectId) else null,
                     if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
                     if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-                )
+                ).runApiOperation()
 
             is ByFileId, is ByUrl ->
                 service.sendPhoto(
@@ -365,7 +365,7 @@ internal class ApiClient(
                     messageEffectId,
                     allowPaidBroadcast,
                     showCaptionAboveMedia,
-                )
+                ).runApiOperation()
         }
 
     fun sendAudio(
@@ -382,7 +382,7 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         when (audio) {
             is ByFile, is ByByteArray, is ByInputStream ->
                 service.sendAudio(
@@ -404,7 +404,7 @@ internal class ApiClient(
                     if (messageEffectId != null) convertString(messageEffectId) else null,
                     if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
                     if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-                )
+                ).runApiOperation()
 
             is ByFileId, is ByUrl ->
                 service.sendAudio(
@@ -425,7 +425,7 @@ internal class ApiClient(
                     messageEffectId,
                     allowPaidBroadcast,
                     showCaptionAboveMedia,
-                )
+                ).runApiOperation()
         }
 
     fun sendDocument(
@@ -443,7 +443,7 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         when (document) {
             is ByFile, is ByByteArray, is ByInputStream ->
                 service.sendDocument(
@@ -465,7 +465,7 @@ internal class ApiClient(
                     if (messageEffectId != null) convertString(messageEffectId) else null,
                     if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
                     if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-                )
+                ).runApiOperation()
 
             is ByFileId, is ByUrl ->
                 service.sendDocument(
@@ -486,7 +486,7 @@ internal class ApiClient(
                     messageEffectId,
                     allowPaidBroadcast,
                     showCaptionAboveMedia,
-                )
+                ).runApiOperation()
         }
 
     fun sendVideo(
@@ -505,7 +505,7 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         when (video) {
             is ByFile, is ByByteArray, is ByInputStream ->
                 service.sendVideo(
@@ -529,7 +529,7 @@ internal class ApiClient(
                     if (messageEffectId != null) convertString(messageEffectId) else null,
                     if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
                     if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-                )
+                ).runApiOperation()
 
             is ByFileId, is ByUrl ->
                 service.sendVideo(
@@ -552,7 +552,7 @@ internal class ApiClient(
                     messageEffectId,
                     allowPaidBroadcast,
                     showCaptionAboveMedia,
-                )
+                ).runApiOperation()
         }
 
     fun sendGame(
@@ -591,7 +591,7 @@ internal class ApiClient(
         disableNotification: Boolean?,
         protectContent: Boolean?,
         replyMarkup: ReplyMarkup?,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.sendAnimation(
             chatId,
             animation.toMultipartBodyPart("video"),
@@ -603,7 +603,7 @@ internal class ApiClient(
             if (disableNotification != null) convertString(disableNotification.toString()) else null,
             if (protectContent != null) convertString(protectContent.toString()) else null,
             if (replyMarkup != null) convertJson(replyMarkup.toString()) else null,
-        )
+        ).runApiOperation()
 
     fun sendAnimation(
         chatId: ChatId,
@@ -621,7 +621,7 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         when (animation) {
             is ByFile, is ByByteArray, is ByInputStream ->
                 service.sendAnimation(
@@ -645,7 +645,7 @@ internal class ApiClient(
                     if (messageEffectId != null) convertString(messageEffectId) else null,
                     if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
                     if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-                )
+                ).runApiOperation()
 
             is ByFileId, is ByUrl ->
                 service.sendAnimation(
@@ -668,7 +668,7 @@ internal class ApiClient(
                     messageEffectId,
                     allowPaidBroadcast,
                     showCaptionAboveMedia,
-                )
+                ).runApiOperation()
         }
 
     fun sendVoice(
@@ -686,7 +686,7 @@ internal class ApiClient(
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         when (audio) {
             is ByFile, is ByByteArray, is ByInputStream ->
                 service.sendVoice(
@@ -709,7 +709,7 @@ internal class ApiClient(
                     if (messageEffectId != null) convertString(messageEffectId) else null,
                     if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
                     if (showCaptionAboveMedia != null) convertString(showCaptionAboveMedia.toString()) else null,
-                )
+                ).runApiOperation()
 
             is ByFileId, is ByUrl ->
                 service.sendVoice(
@@ -731,7 +731,7 @@ internal class ApiClient(
                     messageEffectId,
                     allowPaidBroadcast,
                     showCaptionAboveMedia,
-                )
+                ).runApiOperation()
         }
 
     fun sendVideoNote(
@@ -746,7 +746,7 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.sendVideoNote(
             chatId,
             videoNote.file.toMultipartBodyPart("video_note"),
@@ -759,7 +759,7 @@ internal class ApiClient(
             if (businessConnectionId != null) convertString(businessConnectionId) else null,
             if (messageEffectId != null) convertString(messageEffectId) else null,
             if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
-        )
+        ).runApiOperation()
 
     fun sendVideoNote(
         chatId: ChatId,
@@ -773,7 +773,7 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.sendVideoNote(
             chatId,
             videoNoteId.fileId,
@@ -786,7 +786,7 @@ internal class ApiClient(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        )
+        ).runApiOperation()
 
     fun sendMediaGroup(
         chatId: ChatId,
@@ -830,7 +830,7 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.sendLocation(
             chatId,
             latitude,
@@ -846,7 +846,7 @@ internal class ApiClient(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        )
+        ).runApiOperation()
 
     fun editMessageLiveLocation(
         chatId: ChatId?,
@@ -859,7 +859,7 @@ internal class ApiClient(
         horizontalAccuracy: Float?,
         heading: Int?,
         businessConnectionId: String? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.editMessageLiveLocation(
             chatId,
             messageId,
@@ -871,7 +871,7 @@ internal class ApiClient(
             horizontalAccuracy,
             heading,
             businessConnectionId,
-        )
+        ).runApiOperation()
 
     fun stopMessageLiveLocation(
         chatId: ChatId?,
@@ -879,14 +879,14 @@ internal class ApiClient(
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?,
         businessConnectionId: String? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.stopMessageLiveLocation(
             chatId,
             messageId,
             inlineMessageId,
             replyMarkup,
             businessConnectionId,
-        )
+        ).runApiOperation()
 
     fun sendVenue(
         chatId: ChatId,
@@ -905,7 +905,7 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.sendVenue(
             chatId,
             latitude,
@@ -923,7 +923,7 @@ internal class ApiClient(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        )
+        ).runApiOperation()
 
     fun sendContact(
         chatId: ChatId,
@@ -937,7 +937,7 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.sendContact(
             chatId,
             phoneNumber,
@@ -950,7 +950,7 @@ internal class ApiClient(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        )
+        ).runApiOperation()
 
     fun sendPoll(
         chatId: ChatId,
@@ -1007,7 +1007,7 @@ internal class ApiClient(
         userId: Long,
         offset: Long?,
         limit: Int?,
-    ): Call<Response<UserProfilePhotos>> = service.getUserProfilePhotos(userId, offset, limit)
+    ): TelegramBotResult<UserProfilePhotos> = service.getUserProfilePhotos(userId, offset, limit).runApiOperation()
 
     fun getFile(fileId: String): Call<Response<File>> = service.getFile(fileId)
 
@@ -1017,17 +1017,17 @@ internal class ApiClient(
         chatId: ChatId,
         userId: Long,
         untilDate: Long? = null,
-    ): Call<Response<Boolean>> = service.banChatMember(chatId, userId, untilDate)
+    ): TelegramBotResult<Boolean> = service.banChatMember(chatId, userId, untilDate).runApiOperation()
 
     fun approveChatJoinRequest(
         chatId: ChatId,
         userId: Long,
-    ): Call<Response<Boolean>> = service.approveChatJoinRequest(chatId, userId)
+    ): TelegramBotResult<Boolean> = service.approveChatJoinRequest(chatId, userId).runApiOperation()
 
     fun declineChatJoinRequest(
         chatId: ChatId,
         userId: Long,
-    ): Call<Response<Boolean>> = service.declineChatJoinRequest(chatId, userId)
+    ): TelegramBotResult<Boolean> = service.declineChatJoinRequest(chatId, userId).runApiOperation()
 
     fun createChatInviteLink(
         chatId: ChatId,
@@ -1035,14 +1035,14 @@ internal class ApiClient(
         expireDate: Int?,
         memberLimit: Int?,
         createsJoinRequest: Boolean?,
-    ): Call<Response<Boolean>> =
+    ): TelegramBotResult<Boolean> =
         service.createChatInviteLink(
             chatId,
             name,
             expireDate,
             memberLimit,
             createsJoinRequest,
-        )
+        ).runApiOperation()
 
     fun editChatInviteLink(
         chatId: ChatId,
@@ -1051,7 +1051,7 @@ internal class ApiClient(
         expireDate: Int? = null,
         memberLimit: Int? = null,
         createsJoinRequest: Boolean? = null,
-    ): Call<Response<Boolean>> =
+    ): TelegramBotResult<Boolean> =
         service.editChatInviteLink(
             chatId,
             inviteLink,
@@ -1059,16 +1059,16 @@ internal class ApiClient(
             expireDate,
             memberLimit,
             createsJoinRequest,
-        )
+        ).runApiOperation()
 
     fun revokeChatInviteLink(
         chatId: ChatId,
         inviteLink: String,
-    ): Call<Response<Boolean>> =
+    ): TelegramBotResult<Boolean> =
         service.revokeChatInviteLink(
             chatId,
             inviteLink,
-        )
+        ).runApiOperation()
 
     fun unbanChatMember(
         chatId: ChatId,
@@ -1087,13 +1087,13 @@ internal class ApiClient(
         userId: Long,
         chatPermissions: ChatPermissions,
         untilDate: Long? = null,
-    ): Call<Response<Boolean>> =
+    ): TelegramBotResult<Boolean> =
         service.restrictChatMember(
             chatId,
             userId,
             gson.toJson(chatPermissions),
             untilDate,
-        )
+        ).runApiOperation()
 
     fun promoteChatMember(
         chatId: ChatId,
@@ -1126,26 +1126,26 @@ internal class ApiClient(
     fun setChatPermissions(
         chatId: ChatId,
         permissions: ChatPermissions,
-    ): Call<Response<Boolean>> = service.setChatPermissions(chatId, gson.toJson(permissions))
+    ): TelegramBotResult<Boolean> = service.setChatPermissions(chatId, gson.toJson(permissions)).runApiOperation()
 
-    fun exportChatInviteLink(chatId: ChatId): Call<Response<String>> = service.exportChatInviteLink(chatId)
+    fun exportChatInviteLink(chatId: ChatId): TelegramBotResult<String> = service.exportChatInviteLink(chatId).runApiOperation()
 
     fun setChatPhoto(
         chatId: ChatId,
         photo: SystemFile,
-    ): Call<Response<Boolean>> = service.setChatPhoto(chatId, photo.toMultipartBodyPart("photo"))
+    ): TelegramBotResult<Boolean> = service.setChatPhoto(chatId, photo.toMultipartBodyPart("photo")).runApiOperation()
 
-    fun deleteChatPhoto(chatId: ChatId): Call<Response<Boolean>> = service.deleteChatPhoto(chatId)
+    fun deleteChatPhoto(chatId: ChatId): TelegramBotResult<Boolean> = service.deleteChatPhoto(chatId).runApiOperation()
 
     fun setChatTitle(
         chatId: ChatId,
         title: String,
-    ): Call<Response<Boolean>> = service.setChatTitle(chatId, title)
+    ): TelegramBotResult<Boolean> = service.setChatTitle(chatId, title).runApiOperation()
 
     fun setChatDescription(
         chatId: ChatId,
         description: String,
-    ): Call<Response<Boolean>> = service.setChatDescription(chatId, description)
+    ): TelegramBotResult<Boolean> = service.setChatDescription(chatId, description).runApiOperation()
 
     fun pinChatMessage(
         chatId: ChatId,
@@ -1172,10 +1172,7 @@ internal class ApiClient(
     fun unpinAllChatMessages(
         chatId: ChatId,
     ): TelegramBotResult<Boolean> =
-        service
-            .unpinAllChatMessages(
-                chatId,
-            ).runApiOperation()
+        service.unpinAllChatMessages(chatId).runApiOperation()
 
     // --- Forum topics (Bot API 6.3 / 6.4) ---
 
@@ -1336,7 +1333,7 @@ internal class ApiClient(
 
     fun getChatAdministrators(chatId: ChatId): TelegramBotResult<List<ChatMember>> = service.getChatAdministrators(chatId).runApiOperation()
 
-    fun getChatMemberCount(chatId: ChatId): Call<Response<Int>> = service.getChatMemberCount(chatId)
+    fun getChatMemberCount(chatId: ChatId): TelegramBotResult<Int> = service.getChatMemberCount(chatId).runApiOperation()
 
     fun getChatMember(
         chatId: ChatId,
@@ -1378,9 +1375,9 @@ internal class ApiClient(
                 cacheTime,
             ).runApiOperation()
 
-    fun logOut(): Call<Response<Boolean>> = service.logOut()
+    fun logOut(): TelegramBotResult<Boolean> = service.logOut().runApiOperation()
 
-    fun close(): Call<Response<Boolean>> = service.close()
+    fun close(): TelegramBotResult<Boolean> = service.close().runApiOperation()
 
     /**
      * Updating messages
@@ -1395,7 +1392,7 @@ internal class ApiClient(
         replyMarkup: ReplyMarkup?,
         entities: List<MessageEntity>? = null,
         businessConnectionId: String? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.editMessageText(
             chatId,
             messageId,
@@ -1405,7 +1402,7 @@ internal class ApiClient(
             replyMarkup,
             if (entities != null) gson.toJson(entities) else null,
             businessConnectionId,
-        )
+        ).runApiOperation()
 
     fun editMessageCaption(
         chatId: ChatId?,
@@ -1417,7 +1414,7 @@ internal class ApiClient(
         captionEntities: List<MessageEntity>? = null,
         businessConnectionId: String? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.editMessageCaption(
             chatId,
             messageId,
@@ -1428,7 +1425,7 @@ internal class ApiClient(
             if (captionEntities != null) gson.toJson(captionEntities) else null,
             businessConnectionId,
             showCaptionAboveMedia,
-        )
+        ).runApiOperation()
 
     fun editMessageMedia(
         chatId: ChatId?,
@@ -1438,7 +1435,7 @@ internal class ApiClient(
         replyMarkup: ReplyMarkup?,
         businessConnectionId: String? = null,
         showCaptionAboveMedia: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.editMessageMedia(
             chatId,
             messageId,
@@ -1447,7 +1444,7 @@ internal class ApiClient(
             replyMarkup,
             businessConnectionId,
             showCaptionAboveMedia,
-        )
+        ).runApiOperation()
 
     fun editMessageReplyMarkup(
         chatId: ChatId?,
@@ -1455,14 +1452,14 @@ internal class ApiClient(
         inlineMessageId: String?,
         replyMarkup: ReplyMarkup?,
         businessConnectionId: String? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.editMessageReplyMarkup(
             chatId,
             messageId,
             inlineMessageId,
             replyMarkup,
             businessConnectionId,
-        )
+        ).runApiOperation()
 
     fun stopPoll(
         chatId: ChatId,
@@ -1602,7 +1599,7 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.sendSticker(
             chatId,
             sticker.toMultipartBodyPart("photo"),
@@ -1613,7 +1610,7 @@ internal class ApiClient(
             if (businessConnectionId != null) convertString(businessConnectionId) else null,
             if (messageEffectId != null) convertString(messageEffectId) else null,
             if (allowPaidBroadcast != null) convertString(allowPaidBroadcast.toString()) else null,
-        )
+        ).runApiOperation()
 
     fun sendSticker(
         chatId: ChatId,
@@ -1625,7 +1622,7 @@ internal class ApiClient(
         businessConnectionId: String? = null,
         messageEffectId: String? = null,
         allowPaidBroadcast: Boolean? = null,
-    ): Call<Response<Message>> =
+    ): TelegramBotResult<Message> =
         service.sendSticker(
             chatId,
             sticker,
@@ -1636,20 +1633,20 @@ internal class ApiClient(
             businessConnectionId,
             messageEffectId,
             allowPaidBroadcast,
-        )
+        ).runApiOperation()
 
     fun getStickerSet(
         name: String,
-    ): Call<Response<StickerSet>> = service.getStickerSet(name)
+    ): TelegramBotResult<StickerSet> = service.getStickerSet(name).runApiOperation()
 
     fun uploadStickerFile(
         userId: Long,
         pngSticker: SystemFile,
-    ): Call<Response<File>> =
+    ): TelegramBotResult<File> =
         service.uploadStickerFile(
             convertString(userId.toString()),
             pngSticker.toMultipartBodyPart("photo"),
-        )
+        ).runApiOperation()
 
     fun createNewStickerSet(
         userId: Long,
@@ -1659,7 +1656,7 @@ internal class ApiClient(
         emojis: String,
         containsMasks: Boolean?,
         maskPosition: MaskPosition?,
-    ): Call<Response<Boolean>> =
+    ): TelegramBotResult<Boolean> =
         service.createNewStickerSet(
             convertString(userId.toString()),
             convertString(name),
@@ -1668,7 +1665,7 @@ internal class ApiClient(
             convertString(emojis),
             if (containsMasks != null) convertString(containsMasks.toString()) else null,
             if (maskPosition != null) convertJson(maskPosition.toString()) else null,
-        )
+        ).runApiOperation()
 
     fun createNewStickerSet(
         userId: Long,
@@ -1678,7 +1675,7 @@ internal class ApiClient(
         emojis: String,
         containsMasks: Boolean?,
         maskPosition: MaskPosition?,
-    ): Call<Response<Boolean>> =
+    ): TelegramBotResult<Boolean> =
         service.createNewStickerSet(
             userId,
             name,
@@ -1687,7 +1684,7 @@ internal class ApiClient(
             emojis,
             containsMasks,
             maskPosition,
-        )
+        ).runApiOperation()
 
     fun addStickerToSet(
         userId: Long,
@@ -1695,14 +1692,14 @@ internal class ApiClient(
         pngSticker: SystemFile,
         emojis: String,
         maskPosition: MaskPosition?,
-    ): Call<Response<Boolean>> =
+    ): TelegramBotResult<Boolean> =
         service.addStickerToSet(
             convertString(userId.toString()),
             convertString(name),
             pngSticker.toMultipartBodyPart("photo"),
             convertString(emojis),
             if (maskPosition != null) convertJson(maskPosition.toString()) else null,
-        )
+        ).runApiOperation()
 
     fun addStickerToSet(
         userId: Long,
@@ -1710,30 +1707,28 @@ internal class ApiClient(
         pngSticker: String,
         emojis: String,
         maskPosition: MaskPosition?,
-    ): Call<Response<Boolean>> =
+    ): TelegramBotResult<Boolean> =
         service.addStickerToSet(
             userId,
             name,
             pngSticker,
             emojis,
             maskPosition,
-        )
+        ).runApiOperation()
 
     fun setStickerPositionInSet(
         sticker: String,
         position: Int,
-    ): Call<Response<Boolean>> =
+    ): TelegramBotResult<Boolean> =
         service.setStickerPositionInSet(
             sticker,
             position,
-        )
+        ).runApiOperation()
 
     fun deleteStickerFromSet(
         sticker: String,
-    ): Call<Response<Boolean>> =
-        service.deleteStickerFromSet(
-            sticker,
-        )
+    ): TelegramBotResult<Boolean> =
+        service.deleteStickerFromSet(sticker).runApiOperation()
 
     fun answerInlineQuery(
         inlineQueryId: String,
@@ -1778,10 +1773,7 @@ internal class ApiClient(
     fun setMyCommands(
         commands: List<BotCommand>,
     ): TelegramBotResult<Boolean> =
-        service
-            .setMyCommands(
-                gson.toJson(commands),
-            ).runApiOperation()
+        service.setMyCommands(gson.toJson(commands)).runApiOperation()
 
     fun sendDice(
         chatId: ChatId,
