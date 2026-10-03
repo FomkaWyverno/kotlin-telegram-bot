@@ -11,10 +11,6 @@ plugins {
     alias libs.plugins.kotlin.jvm
 }
 
-java {
-    withSourcesJar()
-}
-
 group 'com.github.kotlintelegrambot'
 version '6.2.3'
 
@@ -71,6 +67,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+            artifact sourcesJar
         }
     }
 }
