@@ -11,8 +11,12 @@ plugins {
     alias libs.plugins.kotlin.jvm
 }
 
+java {
+    withSourcesJar()
+}
+
 group 'com.github.kotlintelegrambot'
-version '6.2.2'
+version '6.2.3'
 
 repositories {
     mavenCentral()

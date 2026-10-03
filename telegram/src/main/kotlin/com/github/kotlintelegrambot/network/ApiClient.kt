@@ -24,6 +24,7 @@ import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
 import com.github.kotlintelegrambot.entities.UserProfilePhotos
 import com.github.kotlintelegrambot.entities.WebhookInfo
+import com.github.kotlintelegrambot.entities.botcommandscope.BotCommandScope
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.files.File
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
@@ -1772,8 +1773,14 @@ internal class ApiClient(
 
     fun setMyCommands(
         commands: List<BotCommand>,
+        scope: BotCommandScope? = null,
+        languageCode: String? = null
     ): TelegramBotResult<Boolean> =
-        service.setMyCommands(gson.toJson(commands)).runApiOperation()
+        service.setMyCommands(
+            commands = gson.toJson(commands),
+            scope = scope?.let(gson::toJson),
+            languageCode = languageCode
+        ).runApiOperation()
 
     fun sendDice(
         chatId: ChatId,

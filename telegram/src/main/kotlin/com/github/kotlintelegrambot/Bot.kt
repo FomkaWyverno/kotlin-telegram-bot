@@ -17,6 +17,7 @@ import com.github.kotlintelegrambot.entities.SentWebAppMessage
 import com.github.kotlintelegrambot.entities.TelegramFile
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.User
+import com.github.kotlintelegrambot.entities.botcommandscope.BotCommandScope
 import com.github.kotlintelegrambot.entities.dice.DiceEmoji
 import com.github.kotlintelegrambot.entities.inlinequeryresults.InlineQueryResult
 import com.github.kotlintelegrambot.entities.inputmedia.InputMedia
@@ -2018,14 +2019,24 @@ class Bot private constructor(
     /**
      * Use this method to change the list of the bot's commands.
      *
-     * @param commands A JSON-serialized list of bot commands to be set as the list of the bot's
-     * commands. At most 100 commands can be specified.
+     * @param commands A list of bot commands to be set as the list of the bot's commands.
+     * At most 100 commands can be specified.
+     * @param scope Describes the scope of users for which the commands are relevant.
+     * Defaults to [BotCommandScope.Default].
+     * @param languageCode A two-letter ISO 639-1 language code. If empty, commands will be applied
+     * to all users from the given scope, for whose language there are no dedicated commands.
      *
      * @return True on success.
      */
     fun setMyCommands(
         commands: List<BotCommand>,
-    ): TelegramBotResult<Boolean> = apiClient.setMyCommands(commands)
+        scope: BotCommandScope? = null,
+        languageCode: String? = null
+    ): TelegramBotResult<Boolean> = apiClient.setMyCommands(
+        commands = commands,
+        scope = scope,
+        languageCode = languageCode
+    )
 
     /**
      * Use this method to send a dice, which will have a random value from 1 to 6.
